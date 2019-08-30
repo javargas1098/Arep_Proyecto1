@@ -4,9 +4,8 @@ import edu.escuelaing.webServer.web.web;
 
 public class Calculadora {
 	@web()
-	public static String Cuadrado(){
-		//Integer num=Integer.parseInt(number);
-		//num=num*num;
-		return "prueba";
+	public static Integer Cuadrado(String number){
+		Integer num=Integer.parseInt(number);
+		return num;
 	}
 }
