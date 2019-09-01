@@ -10,15 +10,13 @@ import javax.imageio.ImageIO;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 
-
-
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class HttpServer {
-	
+
 	public static void main(String[] args) throws IOException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, ClassNotFoundException, NoSuchMethodException, SecurityException {
 
@@ -61,7 +59,6 @@ public class HttpServer {
 								path = System.getProperty("user.dir") + "/resources" + tempArray[1];
 								br = new BufferedReader(new FileReader(path));
 								out.write("HTTP/1.1 200 OK\r\n" + "Content-Type: text/html\r\n" + "\r\n");
-								//out.println("Content-Type: text/html\r\n"+"\r\n");
 								out.println();
 								String temp = br.readLine();
 								while (temp != null) {
@@ -82,14 +79,16 @@ public class HttpServer {
 							out.write("HTTP/1.1 200 OK \r\n");
 							out.println("Content-Type: image/png");
 							out.println();
+							
+							ByteArrayOutputStream baos = new ByteArrayOutputStream();
 							BufferedImage image = ImageIO
 									.read(new File(System.getProperty("user.dir") + "/resources" + tempArray[1]));
-							ImageIO.write(image, "PNG", clientSocket.getOutputStream());
-							
+							ImageIO.write(image, "PNG", baos);
+							clientSocket.getOutputStream().write(baos.toByteArray());
+							clientSocket.getOutputStream().flush();
 
 						} else if (tempArray[1].substring(1, 4).equals("App")) {
 							out.write("HTTP/1.1 200 OK\r\n" + "Content-Type: text/html\r\n" + "\r\n");
-							//out.println("Content-Type: text/html\r\n"+"\r\n");
 							out.println();
 
 							Reflections reflections = new Reflections("edu.escuelaing.webServer.App",
@@ -132,6 +131,7 @@ public class HttpServer {
 			serverSocket.close();
 		}
 	}
+
 	static int getPort() {
 		if (System.getenv("PORT") != null) {
 			return Integer.parseInt(System.getenv("PORT"));
