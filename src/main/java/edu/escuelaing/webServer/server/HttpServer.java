@@ -77,7 +77,7 @@ public class HttpServer {
 						}
 						if (tempArray[1].contains(".png")) {
 							out.write("HTTP/1.1 200 OK \r\n");
-							out.println("Content-Type: image/png\r\n");
+							out.println("Content-Type: image/png");
 							out.println();
 							BufferedImage image = ImageIO
 									.read(new File(System.getProperty("user.dir") + "/resources" + tempArray[1]));
