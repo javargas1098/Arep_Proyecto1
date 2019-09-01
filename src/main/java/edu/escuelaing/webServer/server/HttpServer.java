@@ -10,6 +10,8 @@ import javax.imageio.ImageIO;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 
+
+
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.InvocationTargetException;
@@ -21,9 +23,9 @@ public class HttpServer {
 		while (true) {
 			ServerSocket serverSocket = null;
 			try {
-				serverSocket = new ServerSocket(35000);
+				serverSocket = new ServerSocket(4567);
 			} catch (IOException e) {
-				System.err.println("Could not listen on port: 35000.");
+				System.err.println("Could not listen on port: 4567.");
 				System.exit(1);
 			}
 			PrintWriter out;
@@ -76,7 +78,7 @@ public class HttpServer {
 						}
 						if (tempArray[1].contains(".png")) {
 							out.write("HTTP/1.1 200 OK\r\n");
-							out.println("Content-Type: image/png\r\n"+"\r\n");
+							out.println("Content-Type: image/png");
 							out.println();
 							BufferedImage image = ImageIO
 									.read(new File(System.getProperty("user.dir") + "/resources" + tempArray[1]));
@@ -126,6 +128,12 @@ public class HttpServer {
 			clientSocket.close();
 			serverSocket.close();
 		}
+	}
+	static int getPort() {
+		if (System.getenv("PORT") != null) {
+			return Integer.parseInt(System.getenv("PORT"));
+		}
+		return 4567; // returns default port if heroku-port isn't set (i.e. on localhost)
 	}
 
 }
