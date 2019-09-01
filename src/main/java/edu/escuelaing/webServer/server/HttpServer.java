@@ -15,7 +15,7 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-public class HttpServer{
+public class HttpServer {
 	public static void main(String[] args) throws IOException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, ClassNotFoundException, NoSuchMethodException, SecurityException {
 		while (true) {
@@ -56,8 +56,8 @@ public class HttpServer{
 							if (tempArray[1].contains(".html")) {
 								path = System.getProperty("user.dir") + "/resources" + tempArray[1];
 								br = new BufferedReader(new FileReader(path));
-								out.write("HTTP/1.1 200 OK");
-								out.println("Content-Type: text/html");
+								out.write("HTTP/1.1 200 OK\r\n");
+								out.println("Content-Type: text/html\r\n"+"\r\n");
 								out.println();
 								String temp = br.readLine();
 								while (temp != null) {
@@ -75,16 +75,16 @@ public class HttpServer{
 							e.printStackTrace();
 						}
 						if (tempArray[1].contains(".png")) {
-							out.write("HTTP/1.1 200 OK");
-							out.println("Content-Type: image/png");
+							out.write("HTTP/1.1 200 OK\r\n");
+							out.println("Content-Type: image/png\r\n"+"\r\n");
 							out.println();
 							BufferedImage image = ImageIO
 									.read(new File(System.getProperty("user.dir") + "/resources" + tempArray[1]));
 							ImageIO.write(image, "PNG", clientSocket.getOutputStream());
 
 						} else if (tempArray[1].substring(1, 4).equals("App")) {
-							out.write("HTTP/1.1 200 OK");
-							out.println("Content-Type: text/html");
+							out.write("HTTP/1.1 200 OK\r\n");
+							out.println("Content-Type: text/html\r\n"+"\r\n");
 							out.println();
 
 							Reflections reflections = new Reflections("edu.escuelaing.webServer.App",
