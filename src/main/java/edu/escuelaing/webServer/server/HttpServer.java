@@ -18,12 +18,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class HttpServer {
+	
 	public static void main(String[] args) throws IOException, IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, ClassNotFoundException, NoSuchMethodException, SecurityException {
+
 		while (true) {
 			ServerSocket serverSocket = null;
 			try {
-				serverSocket = new ServerSocket(4567);
+				serverSocket = new ServerSocket(getPort());
 			} catch (IOException e) {
 				System.err.println("Could not listen on port: 4567.");
 				System.exit(1);
@@ -58,8 +60,8 @@ public class HttpServer {
 							if (tempArray[1].contains(".html")) {
 								path = System.getProperty("user.dir") + "/resources" + tempArray[1];
 								br = new BufferedReader(new FileReader(path));
-								out.write("HTTP/1.1 200 OK\r\n");
-								out.println("Content-Type: text/html\r\n"+"\r\n");
+								out.write("HTTP/1.1 200 OK\r\n" + "Content-Type: text/html\r\n" + "\r\n");
+								//out.println("Content-Type: text/html\r\n"+"\r\n");
 								out.println();
 								String temp = br.readLine();
 								while (temp != null) {
@@ -77,8 +79,8 @@ public class HttpServer {
 							e.printStackTrace();
 						}
 						if (tempArray[1].contains(".png")) {
-							out.write("HTTP/1.1 200 OK\r\n");
-							out.println("Content-Type: image/png");
+							out.write("HTTP/1.1 200 OK\r\n" + "Content-Type: image/png" + "\r\n");
+							//out.println("Content-Type: image/png\r\n");
 							out.println();
 							BufferedImage image = ImageIO
 									.read(new File(System.getProperty("user.dir") + "/resources" + tempArray[1]));
