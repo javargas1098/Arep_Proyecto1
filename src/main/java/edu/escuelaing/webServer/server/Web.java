@@ -1,4 +1,4 @@
-package edu.escuelaing.webServer.web;
+package edu.escuelaing.webServer.server;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,6 +7,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface web {
+public @interface Web {
 
 }
