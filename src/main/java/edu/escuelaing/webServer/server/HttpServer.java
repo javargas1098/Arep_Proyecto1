@@ -79,12 +79,13 @@ public class HttpServer {
 							e.printStackTrace();
 						}
 						if (tempArray[1].contains(".png")) {
-							out.write("HTTP/1.1 200 OK\r\n" + "Content-Type: image/png" + "\r\n");
-							//out.println("Content-Type: image/png\r\n");
-							out.println();
+							out.write("HTTP/1.1 200 OK \r\n");
+							out.println("Content-Type: image/png\r\n");
+							out.println("\r\n\r\n");
 							BufferedImage image = ImageIO
 									.read(new File(System.getProperty("user.dir") + "/resources" + tempArray[1]));
 							ImageIO.write(image, "PNG", clientSocket.getOutputStream());
+							
 
 						} else if (tempArray[1].substring(1, 4).equals("App")) {
 							out.write("HTTP/1.1 200 OK\r\n" + "Content-Type: text/html\r\n" + "\r\n");
