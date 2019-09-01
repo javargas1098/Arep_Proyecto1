@@ -79,7 +79,7 @@ public class HttpServer {
 							e.printStackTrace();
 						}
 						if (tempArray[1].contains(".png")) {
-							out.write("HTTP/1.1 200 OK\r\n" + "Content-Type: image/png\r\n" + "\r\n");
+							out.write("HTTP/1.1 200 OK\r\n" + "Content-Type: image/png" + "\r\n");
 							//out.println("Content-Type: image/png\r\n");
 							out.println();
 							BufferedImage image = ImageIO
