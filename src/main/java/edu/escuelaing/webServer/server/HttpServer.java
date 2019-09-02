@@ -67,6 +67,56 @@ public class HttpServer {
 								}
 
 								br.close();
+
+							} else if (tempArray[1].contains(".png")) {
+//								out.write("HTTP/1.1 200 OK \r\n");
+//								out.println("Content-Type: image/png");
+//								out.println();
+								BufferedImage image = ImageIO
+										.read(new File(System.getProperty("user.dir") + "/resources" + tempArray[1]));
+								ByteArrayOutputStream baos = new ByteArrayOutputStream();
+								ImageIO.write(image, "PNG", baos);
+								byte [] imageBy = baos.toByteArray();
+								DataOutputStream outImg = new DataOutputStream(clientSocket.getOutputStream());
+								outImg.writeBytes("HTTP/1.1 200 OK \r\n");
+								outImg.writeBytes("Content-Type: image/png\r\n");
+								outImg.writeBytes("Content-Length: " + imageBy.length);
+								outImg.writeBytes("\r\n\r\n");
+								outImg.write(imageBy);
+								outImg.close();
+								out.println(outImg.toString());
+								
+
+							} else if (tempArray[1].substring(1, 4).equals("App")) {
+								out.write("HTTP/1.1 200 OK\r\n" + "Content-Type: text/html\r\n" + "\r\n");
+								out.println();
+
+								Reflections reflections = new Reflections("edu.escuelaing.webServer.App",
+										new SubTypesScanner(false));
+
+								Set<Class<? extends Object>> allClasses = reflections.getSubTypesOf(Object.class);
+
+								String[] appPath = tempArray[1].split("/");
+
+								for (Object clas : allClasses) {
+									String[] pathString = clas.toString().split(" ");
+									String[] classString = pathString[1].split("\\.");
+									if (appPath[2].equals(classString[4])) {
+
+										Class c = Class.forName(pathString[1]);
+										String m = appPath[3].split(":")[0];
+										String param = appPath[3].split(":")[1];
+										Method metodo = c.getDeclaredMethod(m, String.class);
+
+										if (metodo.isAnnotationPresent(Web.class)) {
+											out.write(metodo.invoke(null, param).toString());
+										}
+
+										break;
+									}
+
+								}
+
 							}
 
 						} catch (Exception e) {
@@ -74,45 +124,6 @@ public class HttpServer {
 							out.println("Content-Type: text/html");
 							System.out.println("Not found");
 							e.printStackTrace();
-						}
-						if (tempArray[1].contains(".png")) {
-							out.write("HTTP/1.1 200 OK \r\n");
-							out.println("Content-Type: image/png");
-							out.println();
-							BufferedImage image = ImageIO
-									.read(new File(System.getProperty("user.dir") + "/resources" + tempArray[1]));
-							ImageIO.write(image, "PNG", clientSocket.getOutputStream());
-
-						} else if (tempArray[1].substring(1, 4).equals("App")) {
-							out.write("HTTP/1.1 200 OK\r\n" + "Content-Type: text/html\r\n" + "\r\n");
-							out.println();
-
-							Reflections reflections = new Reflections("edu.escuelaing.webServer.App",
-									new SubTypesScanner(false));
-
-							Set<Class<? extends Object>> allClasses = reflections.getSubTypesOf(Object.class);
-
-							String[] appPath = tempArray[1].split("/");
-
-							for (Object clas : allClasses) {
-								String[] pathString = clas.toString().split(" ");
-								String[] classString = pathString[1].split("\\.");
-								if (appPath[2].equals(classString[4])) {
-
-									Class c = Class.forName(pathString[1]);
-									String m = appPath[3].split(":")[0];
-									String param = appPath[3].split(":")[1];
-									Method metodo = c.getDeclaredMethod(m, String.class);
-
-									if (metodo.isAnnotationPresent(Web.class)) {
-										out.write(metodo.invoke(null, param).toString());
-									}
-
-									break;
-								}
-
-							}
-
 						}
 
 						out.close();

@@ -4,8 +4,8 @@ import edu.escuelaing.webServer.server.Web;
 
 public class Texto {
 	@Web()
-	public static String Nombre(String name) {
+	public static String nombre(String name) {
 		
-		return "Tu nombre es:"+name;
+		return "Tu nombre es: "+name;
 	}
 }
