@@ -113,8 +113,8 @@ public class HttpServer {
 									if (appPath[2].equals(classString[4])) {
 
 										Class c = Class.forName(pathString[1]);
-										String m = appPath[3].split(":")[0];
-										String param = appPath[3].split(":")[1];
+										String m = appPath[3].split("=")[0];
+										String param = appPath[3].split("=")[1];
 										Method metodo = c.getDeclaredMethod(m, String.class);
 
 										if (metodo.isAnnotationPresent(Web.class)) {
