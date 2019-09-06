@@ -15,6 +15,12 @@ import java.io.*;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+/**
+ * La clase HttpServer se comporta como un servidor web, el cual recibe
+ * peticiones por medio del protocolo http y responde con recursos html,png y jpg.
+ * 
+ * @author Javier Vargas
+ */
 public class HttpServer {
 
 	public static void main(String[] args) throws IOException, IllegalAccessException, IllegalArgumentException,
