@@ -68,26 +68,25 @@ public class HttpServer {
 
 								br.close();
 
-							} else if (tempArray[1].contains(".png") || tempArray[1].contains(".jpg") ) {
+							} else if (tempArray[1].contains(".png") || tempArray[1].contains(".jpg")) {
 //								out.write("HTTP/1.1 200 OK \r\n");
 //								out.println("Content-Type: image/png");
 //								out.println();
 								String tipoString = "";
 								String tipoString1 = "";
-								if (tempArray[1].contains(".png") ) {
+								if (tempArray[1].contains(".png")) {
 									tipoString = "PNG";
 									tipoString1 = "Content-Type: image/png\r\n";
-									
-								}
-								else {
+
+								} else {
 									tipoString = "JPG";
 									tipoString1 = "Content-Type: image/jpg\r\n";
 								}
 								BufferedImage image = ImageIO
 										.read(new File(System.getProperty("user.dir") + "/resources" + tempArray[1]));
 								ByteArrayOutputStream baos = new ByteArrayOutputStream();
-								ImageIO.write(image, tipoString , baos);
-								byte [] imageBy = baos.toByteArray();
+								ImageIO.write(image, tipoString, baos);
+								byte[] imageBy = baos.toByteArray();
 								DataOutputStream outImg = new DataOutputStream(clientSocket.getOutputStream());
 								outImg.writeBytes("HTTP/1.1 200 OK \r\n");
 								outImg.writeBytes(tipoString1);
@@ -96,26 +95,6 @@ public class HttpServer {
 								outImg.write(imageBy);
 								outImg.close();
 								out.println(outImg.toString());
-								
-
-							}else if (tempArray[1].contains(".jpg")) {
-//								out.write("HTTP/1.1 200 OK \r\n");
-//								out.println("Content-Type: image/png");
-//								out.println();
-								BufferedImage image = ImageIO
-										.read(new File(System.getProperty("user.dir") + "/resources" + tempArray[1]));
-								ByteArrayOutputStream baos = new ByteArrayOutputStream();
-								ImageIO.write(image, "JPG", baos);
-								byte [] imageBy = baos.toByteArray();
-								DataOutputStream outImg = new DataOutputStream(clientSocket.getOutputStream());
-								outImg.writeBytes("HTTP/1.1 200 OK \r\n");
-								outImg.writeBytes("Content-Type: image/jpg\r\n");
-								outImg.writeBytes("Content-Length: " + imageBy.length);
-								outImg.writeBytes("\r\n\r\n");
-								outImg.write(imageBy);
-								outImg.close();
-								out.println(outImg.toString());
-								
 
 							} else if (tempArray[1].substring(1, 4).equals("App")) {
 								out.write("HTTP/1.1 200 OK\r\n" + "Content-Type: text/html\r\n" + "\r\n");
